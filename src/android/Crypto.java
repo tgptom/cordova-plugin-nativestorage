@@ -42,13 +42,11 @@ public class Crypto {
         SecretKeyFactory keyFactory = SecretKeyFactory
                 .getInstance(PBKDF2_DERIVATION_ALGORITHM);
         byte[] keyBytes = keyFactory.generateSecret(keySpec).getEncoded();
-        Log.d(TAG, "key bytes: " + toHex(keyBytes));
+        //Log.d(TAG, "key bytes: " + toHex(keyBytes));
 
         SecretKey result = new SecretKeySpec(keyBytes, "AES");
         long elapsed = System.currentTimeMillis() - start;
-        Log.d(TAG, String.format("PBKDF2 key derivation took %d [ms].",
-                elapsed));
-
+        //Log.d(TAG, String.format("PBKDF2 key derivation took %d [ms].", elapsed));
 
         return result;
     }
@@ -72,11 +70,10 @@ public class Crypto {
         SecretKey key = deriveKeyPbkdf2(salt, password);
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         byte[] iv = generateIv(cipher.getBlockSize());
-        Log.d(TAG, "IV: " + toHex(iv));
+        //Log.d(TAG, "IV: " + toHex(iv));
         IvParameterSpec ivParams = new IvParameterSpec(iv);
         cipher.init(Cipher.ENCRYPT_MODE, key, ivParams);
-        Log.d(TAG, "Cipher IV: "
-                + (cipher.getIV() == null ? null : toHex(cipher.getIV())));
+        //Log.d(TAG, "Cipher IV: " + (cipher.getIV() == null ? null : toHex(cipher.getIV())));
         byte[] cipherText = cipher.doFinal(plaintext.getBytes("UTF-8"));
 
         if (salt != null) {
@@ -109,7 +106,7 @@ public class Crypto {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
         IvParameterSpec ivParams = new IvParameterSpec(iv);
         cipher.init(Cipher.DECRYPT_MODE, key, ivParams);
-        Log.d(TAG, "Cipher IV: " + toHex(cipher.getIV()));
+        //Log.d(TAG, "Cipher IV: " + toHex(cipher.getIV()));
         byte[] plaintext = cipher.doFinal(cipherBytes);
 
         return new String(plaintext, "UTF-8");
