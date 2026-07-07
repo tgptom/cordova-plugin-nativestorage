@@ -65,11 +65,7 @@
 		CDVPluginResult* pluginResult = nil;
 		NSUserDefaults *defaults = [self getUserDefault];
 		if (_suiteName != nil) {
-			// Clear all keys from the suite defaults
-			NSDictionary *allKeys = [defaults dictionaryRepresentation];
-			for (NSString *key in allKeys) {
-				[defaults removeObjectForKey:key];
-			}
+			[defaults removePersistentDomainForName:_suiteName];
 		} else {
 			[defaults removePersistentDomainForName:[[NSBundle mainBundle] bundleIdentifier]];
 		}
@@ -301,12 +297,15 @@
 {
     NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableData *derivedKey = [NSMutableData dataWithLength:kCCKeySizeAES256];
-    CCKeyDerivationPBKDF(kCCPBKDF2,
+    CCStatus status = CCKeyDerivationPBKDF(kCCPBKDF2,
                          passwordData.bytes, passwordData.length,
                          salt.bytes, salt.length,
                          kCCPRFHmacAlgSHA1,
                          10000,
                          derivedKey.mutableBytes, derivedKey.length);
+    if (status != kCCSuccess) {
+        return nil;
+    }
     return derivedKey;
 }
 
@@ -318,11 +317,18 @@
 
     // Generate random 8-byte salt and 16-byte IV
     NSMutableData *salt = [NSMutableData dataWithLength:8];
-    SecRandomCopyBytes(kSecRandomDefault, salt.length, salt.mutableBytes);
+    if (SecRandomCopyBytes(kSecRandomDefault, salt.length, salt.mutableBytes) != errSecSuccess) {
+        return nil;
+    }
     NSMutableData *iv = [NSMutableData dataWithLength:kCCBlockSizeAES128];
-    SecRandomCopyBytes(kSecRandomDefault, iv.length, iv.mutableBytes);
+    if (SecRandomCopyBytes(kSecRandomDefault, iv.length, iv.mutableBytes) != errSecSuccess) {
+        return nil;
+    }
 
     NSData *key = [self deriveKeyFromPassword:password salt:salt];
+    if (key == nil) {
+        return nil;
+    }
 
     size_t bufferSize = plaintextData.length + kCCBlockSizeAES128;
     NSMutableData *cipherData = [NSMutableData dataWithLength:bufferSize];
