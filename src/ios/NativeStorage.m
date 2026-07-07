@@ -292,6 +292,16 @@
 
 #pragma mark - Password-based secret storage (CommonCrypto PBKDF2 + AES-CBC)
 
+// Crypto parameters intentionally match the Android Crypto.java implementation so that
+// ciphertexts produced on one platform can be decrypted on the other:
+//   - Algorithm:   PBKDF2-SHA1 (kCCPRFHmacAlgSHA1)
+//   - Iterations:  10,000
+//   - Salt length: 8 bytes (PKCS5_SALT_LENGTH)
+//   - Key length:  256 bits (AES-256)
+//   - IV length:   16 bytes (AES block size)
+//   - Cipher:      AES/CBC/PKCS7Padding
+//   - Delimiter:   "@~@~@" between base64(salt), base64(iv), base64(ciphertext)
+
 // Derives a 256-bit AES key from a password and salt using PBKDF2-SHA1.
 - (NSData *)deriveKeyFromPassword:(NSString *)password salt:(NSData *)salt
 {
