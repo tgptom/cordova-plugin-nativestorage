@@ -1,3 +1,5 @@
+package com.cordova.plugins.nativestorage;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;

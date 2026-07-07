@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-nativestorage"
-    version="2.3.2">
+    version="2.3.3">
     <name>NativeStorage</name>
     <description>Native storage of variables in Android and iOS</description>
     <license>Apache 2.0</license>
@@ -22,11 +22,11 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="NativeStorage">
-                <param name="android-package" value="NativeStorage"/>
+                <param name="android-package" value="com.cordova.plugins.nativestorage.NativeStorage"/>
             </feature>
         </config-file>
-        <source-file src="src/android/NativeStorage.java" target-dir="src/" />
-        <source-file src="src/android/Crypto.java" target-dir="src/" />
+        <source-file src="src/android/NativeStorage.java" target-dir="src/com/cordova/plugins/nativestorage" />
+        <source-file src="src/android/Crypto.java" target-dir="src/com/cordova/plugins/nativestorage" />
     </platform>
 
 

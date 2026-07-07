@@ -22,6 +22,9 @@
 - (void) setItem: (CDVInvokedUrlCommand*) command;
 - (void) getItem: (CDVInvokedUrlCommand*) command;
 
+- (void) setItemWithPassword: (CDVInvokedUrlCommand*) command;
+- (void) getItemWithPassword: (CDVInvokedUrlCommand*) command;
+
 - (void) keys: (CDVInvokedUrlCommand*) command;
 
 
