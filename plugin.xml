@@ -22,11 +22,11 @@
     <platform name="android">
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="NativeStorage">
-                <param name="android-package" value="NativeStorage"/>
+                <param name="android-package" value="com.cordova.plugins.nativestorage.NativeStorage"/>
             </feature>
         </config-file>
-        <source-file src="src/android/NativeStorage.java" target-dir="src/" />
-        <source-file src="src/android/Crypto.java" target-dir="src/" />
+        <source-file src="src/android/NativeStorage.java" target-dir="src/com/cordova/plugins/nativestorage" />
+        <source-file src="src/android/Crypto.java" target-dir="src/com/cordova/plugins/nativestorage" />
     </platform>
 
 

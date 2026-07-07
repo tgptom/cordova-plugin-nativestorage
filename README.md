@@ -123,11 +123,23 @@ cordova plugin add https://github.com/TheCocoaProject/cordova-plugin-nativestora
 ```
 
 ## <a name="supported_platforms"></a>Supported platforms
-- Android
-- iOS
+- Android (cordova-android 14 and 15)
+- iOS (cordova-ios 7 and 8)
 - Browser (for testing purposes)
 - Windows (thanks to Christian Helbig see [PR](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/pull/38))
 - OS X (thanks to [Javier Ribó](https://github.com/elribonazo) see [PR](https://github.com/TheCocoaProject/cordova-plugin-nativestorage/pull/58))
+
+### Platform compatibility notes
+
+| Platform | Versions tested/supported |
+|---|---|
+| cordova-android | 14, 15 (Java 17+, minSdk 24, AGP 8.x / Gradle 8.x) |
+| cordova-ios | 7, 8 (Xcode 15+, iOS 13+, Objective-C) |
+| Browser | For development/testing |
+| Windows | Community-supported |
+| OS X | Community-supported |
+
+**Password-based secret storage** (`setSecretItem` / `getSecretItem` with `mode: "password"`) is now supported on both Android and iOS. The iOS implementation uses CommonCrypto (PBKDF2-SHA1 + AES-256-CBC), which is available on all supported iOS versions without any additional dependencies.
 
 ## <a name="supported_frameworks"></a>Supported frameworks
 - [vanilla Cordova](https://www.npmjs.com/package/cordova-plugin-nativestorage)
